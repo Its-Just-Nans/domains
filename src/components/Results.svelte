@@ -2,33 +2,36 @@
     import { getDomain, results, getCartId } from "./utils.js";
     let threshold = 20;
     let res = {};
-    $: res = Object.entries($results).reduce((acc, current) => {
-        const [domain, value] = current;
-        let priceDefault;
-        let priceRenew;
-        let priceTotal;
-        let type;
-        let error = true;
-        if (value.length > 0 && value[0].action) {
-            error = false;
-            type = value[0].action || "error";
-            if (value[0].prices && value[0].prices.length > 0) {
-                priceDefault = value[0].prices.find((onePrice) => onePrice.label === "PRICE")?.price.value ?? "error";
-                priceRenew = value[0].prices.find((onePrice) => onePrice.label === "RENEW")?.price.value ?? "error";
-                priceTotal = value[0].prices.find((onePrice) => onePrice.label === "TOTAL")?.price.value ?? "error";
+    $: res = Object.entries($results)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .reduce((acc, current) => {
+            const [domain, value] = current;
+            let priceDefault;
+            let priceRenew;
+            let priceTotal;
+            let type;
+            let error = true;
+            if (value.length > 0 && value[0].action) {
+                error = false;
+                type = value[0].action || "error";
+                if (value[0].prices && value[0].prices.length > 0) {
+                    priceDefault =
+                        value[0].prices.find((onePrice) => onePrice.label === "PRICE")?.price.value ?? "error";
+                    priceRenew = value[0].prices.find((onePrice) => onePrice.label === "RENEW")?.price.value ?? "error";
+                    priceTotal = value[0].prices.find((onePrice) => onePrice.label === "TOTAL")?.price.value ?? "error";
+                }
             }
-        }
-        return {
-            ...acc,
-            [domain]: {
-                priceDefault,
-                priceRenew,
-                priceTotal,
-                type,
-                error,
-            },
-        };
-    }, {});
+            return {
+                ...acc,
+                [domain]: {
+                    priceDefault,
+                    priceRenew,
+                    priceTotal,
+                    type,
+                    error,
+                },
+            };
+        }, {});
 </script>
 
 <h2>Results</h2>
