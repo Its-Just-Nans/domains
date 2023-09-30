@@ -52,7 +52,7 @@
                 >
                     <td>
                         {#if value.type === "transfer"}
-                            <a href={domain}>{domain}</a>
+                            <a href={`https://${domain}`}>{domain}</a>
                         {:else}
                             {domain}
                         {/if}
