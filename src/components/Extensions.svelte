@@ -32,6 +32,7 @@
 </div>
 <div class="extensions-list">
     {#each $selected
+        .sort()
         .filter((oneExt) => (onlyTopLevel ? !oneExt.includes(".") : true))
         .filter((oneExt) => (maxCharNumber > 0 ? oneExt.length <= maxCharNumber : true))
         .filter( (oneExt) => (search !== "" ? (search.startsWith(".") ? oneExt.includes(search.substring(1)) : oneExt.includes(search)) : true) ) as oneSelected}
