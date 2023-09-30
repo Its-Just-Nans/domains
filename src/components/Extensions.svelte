@@ -23,7 +23,7 @@
         on:input={() => {
             saveLocalStorage("only-top-level", onlyTopLevel);
             onlyTopLevel = !onlyTopLevel;
-            $selected = $selected.filter(condition);
+            $selected = $selected.filter((oneExt) => (onlyTopLevel ? !oneExt.includes(".") : true));
             saveLocalStorage("selected-extensions", $selected);
         }}
     />
