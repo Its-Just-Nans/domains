@@ -12,3 +12,7 @@ Available online: [https://its-just-nans.github.io/domains/](https://its-just-na
 - [x] save domains in local storage
 - [x] max price
 - [ ] select only created in results
+
+## License
+
+Licensed under the MIT License - [LICENSE](LICENSE).
