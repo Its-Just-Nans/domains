@@ -50,7 +50,13 @@
                     class:red={value.type === "unavailable"}
                     class:blue={value.type === "transfer"}
                 >
-                    <td>{domain}</td>
+                    <td>
+                        {#if value.type === "transfer"}
+                            <a href={domain}>{domain}</a>
+                        {:else}
+                            {domain}
+                        {/if}
+                    </td>
                     {#if !value.error}
                         {#if value.type === "unavailable"}
                             <td class="align" colspan="3">{value.type}</td>
