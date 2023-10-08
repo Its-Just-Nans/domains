@@ -17,18 +17,27 @@
 {/key}
 <div class="div-input">
     <input type="text" class="input" bind:value={search} placeholder="Search extension" />
-    <input
-        type="checkbox"
-        bind:checked={onlyTopLevel}
-        on:input={() => {
-            saveLocalStorage("only-top-level", onlyTopLevel);
-            onlyTopLevel = !onlyTopLevel;
-            $selected = $selected.filter((oneExt) => (onlyTopLevel ? !oneExt.includes(".") : true));
-            saveLocalStorage("selected-extensions", $selected);
-        }}
-    />
-    Only top level
-    <input type="number" class="input" bind:value={maxCharNumber} min={2} placeholder="Max char number" />
+    <div class="flex">
+        <span>
+            <label for="only-to-level">Only top level</label>
+        </span>
+        <input
+            type="checkbox"
+            name="only-top-level"
+            id="only-to-level"
+            bind:checked={onlyTopLevel}
+            on:input={() => {
+                saveLocalStorage("only-top-level", onlyTopLevel);
+                onlyTopLevel = !onlyTopLevel;
+                $selected = $selected.filter((oneExt) => (onlyTopLevel ? !oneExt.includes(".") : true));
+                saveLocalStorage("selected-extensions", $selected);
+            }}
+        />
+    </div>
+    <div class="flex">
+        <span>Max char</span>
+        <input type="number" class="input" bind:value={maxCharNumber} min={2} placeholder="Max char number" />
+    </div>
 </div>
 <div class="extensions-list">
     {#each $selected
@@ -68,6 +77,15 @@
 </div>
 
 <style>
+    .flex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .flex > * {
+        flex: 1;
+    }
     h2 {
         text-align: center;
     }

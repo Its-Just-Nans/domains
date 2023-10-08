@@ -35,7 +35,10 @@
 </script>
 
 <h2>Results</h2>
-<input type="number" class="input" bind:value={threshold} placeholder="Max price" />
+<div class="flex">
+    <span>Max price</span>
+    <input type="number" class="input" bind:value={threshold} placeholder="Max price" />
+</div>
 <div class="wrap-table">
     <table>
         <thead>
@@ -111,6 +114,15 @@
 </div>
 
 <style>
+    .flex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .flex > * {
+        flex: 1;
+    }
     .retry {
         cursor: pointer;
     }
