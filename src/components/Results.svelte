@@ -57,7 +57,7 @@
                     class:blue={value.type === "transfer"}
                 >
                     <td>
-                        {#if value.type === "transfer"}
+                        {#if value.type !== "create"}
                             <a href={`https://${domain}`}>{domain}</a>
                         {:else}
                             {domain}
