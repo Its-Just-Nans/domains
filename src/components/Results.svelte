@@ -1,5 +1,6 @@
 <script>
     import { getDomain, results, getCartId } from "./utils.js";
+    import OpenInNew from "./OpenInNew.svelte";
     let threshold = 20;
     let res = {};
     $: res = Object.entries($results)
@@ -58,7 +59,12 @@
                 >
                     <td>
                         {#if value.type !== "create"}
-                            <a href={`https://${domain}`}>{domain}</a>
+                            <a href={`https://${domain}`} target="_blank">
+                                <span>
+                                    {domain}
+                                </span>
+                                <OpenInNew size={12} />
+                            </a>
                         {:else}
                             {domain}
                         {/if}
