@@ -4,6 +4,8 @@ Check domains availability thougth the [OVH API](https://api.ovh.com/console/) !
 
 Available online: [https://its-just-nans.github.io/domains/](https://its-just-nans.github.io/domains/)
 
+> Looking for a pythonic version? Check out [https://github.com/Its-Just-Nans/domains-scraping](https://github.com/Its-Just-Nans/domains-scraping)
+
 ## Features
 
 - [x] filter by char number
