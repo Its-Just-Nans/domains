@@ -3,8 +3,10 @@
     import OpenInNew from "./OpenInNew.svelte";
     let threshold = 20;
     let res = {};
+    let onlyCreatable = false;
     $: res = Object.entries($results)
         .sort(([a], [b]) => a.localeCompare(b))
+        .filter(([_domain, info]) => (onlyCreatable ? info[0].action == "create" : true))
         .reduce((acc, current) => {
             const [domain, value] = current;
             let priceDefault;
@@ -36,9 +38,17 @@
 </script>
 
 <h2>Results</h2>
-<div class="flex">
-    <span>Max price</span>
-    <input type="number" class="input" bind:value={threshold} placeholder="Max price" />
+<div>
+    <div class="flex">
+        <span>Max price</span>
+        <input type="number" class="input" bind:value={threshold} placeholder="Max price" />
+    </div>
+    <div class="flex">
+        <span>
+            <label for="only-to-level">Only creatable</label>
+        </span>
+        <input type="checkbox" name="only-top-level" id="only-to-level" bind:checked={onlyCreatable} />
+    </div>
 </div>
 <div class="wrap-table">
     <table>

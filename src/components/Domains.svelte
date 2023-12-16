@@ -4,7 +4,6 @@
     export let names = fromLocalStorage("names", "");
     let requesting = false;
     const onClick = async () => {
-        requesting = true;
         const requests: Promise<Response>[] = [];
         $results = {};
         if ($selected.length === 0) {
@@ -17,6 +16,7 @@
         if (domains.length === 0) {
             return alert("Enter domains");
         }
+        requesting = true;
         domains.forEach((name) => {
             if (name === "") {
                 return;

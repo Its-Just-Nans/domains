@@ -11,7 +11,7 @@ Available online: [https://its-just-nans.github.io/domains/](https://its-just-na
 - [x] save selected extensions in local storage
 - [x] save domains in local storage
 - [x] max price
-- [ ] select only created in results
+- [x] select only creatable in results
 
 ## License
 
