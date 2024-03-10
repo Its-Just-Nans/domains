@@ -44,7 +44,9 @@
         .sort()
         .filter((oneExt) => (onlyTopLevel ? !oneExt.includes(".") : true))
         .filter((oneExt) => (maxCharNumber > 0 ? oneExt.length <= maxCharNumber : true))
-        .filter( (oneExt) => (search !== "" ? (search.startsWith(".") ? oneExt.includes(search.substring(1)) : oneExt.includes(search)) : true) ) as oneSelected}
+        .filter((oneExt) => (search !== "" ? (search.toLocaleLowerCase().startsWith(".") ? oneExt.includes(search
+                              .toLocaleLowerCase()
+                              .substring(1)) : oneExt.includes(search.toLocaleLowerCase())) : true)) as oneSelected}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div
@@ -61,7 +63,11 @@
             .{oneSelected}
         </div>
     {/each}
-    {#each ext.filter( (oneExt) => (search !== "" && !$selected.includes(oneExt) ? (search.startsWith(".") ? oneExt.includes(search.substring(1)) : oneExt.includes(search)) : !$selected.includes(oneExt)) ) as extension}
+    {#each ext.filter((oneExt) => (search.toLocaleLowerCase() !== "" && !$selected.includes(oneExt) ? (search
+                  .toLocaleLowerCase()
+                  .startsWith(".") ? oneExt.includes(search
+                          .toLocaleLowerCase()
+                          .substring(1)) : oneExt.includes(search.toLocaleLowerCase())) : !$selected.includes(oneExt))) as extension}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div
