@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { fromLocalStorage, saveLocalStorage, results, selected, getDomain } from "./utils";
+    import { fromLocalStorage, saveLocalStorage, results, selected, getDomain, authorization, proxy } from "./utils";
     export let cartId;
     export let names = fromLocalStorage("names", "");
     let requesting = false;
@@ -17,6 +17,7 @@
             return alert("Enter domains");
         }
         requesting = true;
+        console.log(domains, $selected);
         domains.forEach((name) => {
             if (name === "") {
                 return;
@@ -32,6 +33,16 @@
 </script>
 
 <h2>Domains</h2>
+<div>
+    <label for="authorization">Authorization Header</label>
+    <br />
+    <input id="authorization" type="text" bind:value={$authorization} placeholder="Bearer ey.." />
+</div>
+<div>
+    <label for="proxy">Proxy</label>
+    <br />
+    <input id="proxy" type="text" bind:value={$proxy} placeholder="http://localhost:3000" />
+</div>
 <p class="cartId">
     {cartId}
 </p>

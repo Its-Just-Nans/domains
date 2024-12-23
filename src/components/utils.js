@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 
 export const fromLocalStorage = (key, defaultValue) => {
     const json = localStorage.getItem(key);
@@ -20,8 +20,15 @@ export const saveLocalStorage = (key, value) => {
 export const results = writable({});
 export const selected = writable(fromLocalStorage("selected-extensions", []));
 
-export const getDomain = (domain, cartId) =>
-    fetch(`https://api.ovh.com/1.0/order/cart/${cartId}/domain?domain=${domain}`).then(async (resp) => {
+export const getDomain = (domain, cartId) => {
+    const proxyUrl = get(proxy);
+    const urlProxy = proxyUrl.endsWith("/") ? proxyUrl : `${proxyUrl}/`;
+    const url = `${urlProxy}https://api.ovh.com/1.0/order/cart/${cartId}/domain?domain=${domain}`;
+    return fetch(url, {
+        headers: {
+            Authorization: get(authorization),
+        },
+    }).then(async (resp) => {
         const decoded = await resp.json();
         results.update((currResults) => {
             return {
@@ -38,3 +45,15 @@ export const getDomain = (domain, cartId) =>
             };
         });
     });
+};
+
+export const authorization = writable(fromLocalStorage("authorization", ""));
+
+authorization.subscribe((value) => {
+    saveLocalStorage("authorization", value);
+});
+export const proxy = writable(fromLocalStorage("proxy", "http://localhost:3000"));
+
+proxy.subscribe((value) => {
+    saveLocalStorage("proxy", value);
+});
