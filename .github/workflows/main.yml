@@ -32,12 +32,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup Pages
         uses: actions/configure-pages@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-      - name: npm install
-        run: npm ci --force
-      - name: building
-        run: npm run build
+      - uses: its-just-nans/deploy-that@latest
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
