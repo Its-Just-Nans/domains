@@ -4,9 +4,11 @@
     let threshold = 20;
     let res = {};
     let onlyCreatable = false;
+    let onlyGoodPrice = false;
+    let onlyGoodPriceAlsoRenew = false;
     $: res = Object.entries($results)
         .sort(([a], [b]) => a.localeCompare(b))
-        .filter(([_domain, info]) => (onlyCreatable ? info[0].action == "create" : true))
+        .filter(([_domain, info]) => (onlyCreatable ? info?.[0]?.action == "create" : true))
         .reduce((acc, current) => {
             const [domain, value] = current;
             let priceDefault;
@@ -22,7 +24,15 @@
                         value[0].prices.find((onePrice) => onePrice.label === "PRICE")?.price.value ?? "error";
                     priceRenew = value[0].prices.find((onePrice) => onePrice.label === "RENEW")?.price.value ?? "error";
                     priceTotal = value[0].prices.find((onePrice) => onePrice.label === "TOTAL")?.price.value ?? "error";
+                    if (onlyGoodPrice && priceTotal > threshold) {
+                        return acc;
+                    }
+                    if (onlyGoodPriceAlsoRenew && priceRenew > threshold) {
+                        return acc;
+                    }
                 }
+            } else if (onlyGoodPrice) {
+                return acc;
             }
             return {
                 ...acc,
@@ -48,6 +58,21 @@
             <label for="only-to-level">Only creatable</label>
         </span>
         <input type="checkbox" name="only-top-level" id="only-to-level" bind:checked={onlyCreatable} />
+    </div>
+    <div class="flex">
+        <span>
+            <label for="only-goodprice">Only in price range</label>
+        </span>
+        <div>
+            <input type="checkbox" name="only-goodprice" id="only-goodprice" bind:checked={onlyGoodPrice} />
+            <label for="only-goodprice-also-renew">renew</label>
+            <input
+                type="checkbox"
+                name="only-goodprice-also-renew"
+                id="only-goodprice-also-renew"
+                bind:checked={onlyGoodPriceAlsoRenew}
+            />
+        </div>
     </div>
 </div>
 <div class="wrap-table">

@@ -10,6 +10,7 @@ export const fromLocalStorage = (key, defaultValue) => {
 
 let cartId;
 
+export const OVH_API = "https://eu.api.ovh.com/v1/";
 export const getCartId = () => cartId;
 export const setCartId = (c) => (cartId = c);
 
@@ -20,10 +21,20 @@ export const saveLocalStorage = (key, value) => {
 export const results = writable({});
 export const selected = writable(fromLocalStorage("selected-extensions", []));
 
-export const getDomain = (domain, cartId) => {
+const getProxyUrl = () => {
     const proxyUrl = get(proxy);
-    const urlProxy = proxyUrl.endsWith("/") ? proxyUrl : `${proxyUrl}/`;
-    const url = `${urlProxy}https://api.ovh.com/1.0/order/cart/${cartId}/domain?domain=${domain}`;
+    if (!proxyUrl) {
+        return "";
+    }
+    if (proxyUrl.endsWith("/")) {
+        return proxyUrl;
+    }
+    return `${proxyUrl}/`;
+};
+
+export const getDomain = (domain, cartId) => {
+    const urlProxy = getProxyUrl();
+    const url = `${urlProxy}${OVH_API}order/cart/${cartId}/domain?domain=${domain}`;
     return fetch(url, {
         headers: {
             Authorization: get(authorization),
@@ -52,7 +63,7 @@ export const authorization = writable(fromLocalStorage("authorization", ""));
 authorization.subscribe((value) => {
     saveLocalStorage("authorization", value);
 });
-export const proxy = writable(fromLocalStorage("proxy", "http://localhost:3000"));
+export const proxy = writable(fromLocalStorage("proxy", ""));
 
 proxy.subscribe((value) => {
     saveLocalStorage("proxy", value);
